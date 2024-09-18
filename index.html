@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accounting Dashboard</title>
+    <!-- Tambahkan Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tambahkan Alpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+      /* Untuk mengatur animasi pada sidebar */
+      [x-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Container Utama -->
+    <div class="min-h-screen flex">
+      <!-- Sidebar -->
+      <aside class="w-64 bg-white shadow-lg" x-data="{ open: true }">
+        <div class="flex justify-between items-center p-4 bg-gray-800 text-white">
+          <h1 class="text-xl font-bold">Acc. Dashboard</h1>
+          <button x-on:click="open = !open" class="focus:outline-none">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+          </button>
+        </div>
+
+        <nav x-show="open" x-transition class="p-4">
+          <ul>
+            <li class="mb-3">
+              <a href="#" class="flex items-center p-2 rounded bg-gray-200 text-gray-800">
+                <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 3a7 7 0 110 14 7 7 0 010-14zm0-2C4.477 1 0 5.477 0 11s4.477 10 10 10 10-4.477 10-10S15.523 1 10 1z"></path>
+                </svg>
+                Dashboard
+              </a>
+            </li>
+            <li class="mb-3">
+              <a href="#" class="flex items-center p-2 rounded hover:bg-gray-100">
+                <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 3a7 7 0 110 14 7 7 0 010-14zm0-2C4.477 1 0 5.477 0 11s4.477 10 10 10 10-4.477 10-10S15.523 1 10 1z"></path>
+                </svg>
+                Laporan Keuangan
+              </a>
+            </li>
+            <li class="mb-3">
+              <a href="#" class="flex items-center p-2 rounded hover:bg-gray-100">
+                <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 3a7 7 0 110 14 7 7 0 010-14zm0-2C4.477 1 0 5.477 0 11s4.477 10 10 10 10-4.477 10-10S15.523 1 10 1z"></path>
+                </svg>
+                Transaksi
+              </a>
+            </li>
+            <li class="mb-3">
+              <a href="#" class="flex items-center p-2 rounded hover:bg-gray-100">
+                <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 3a7 7 0 110 14 7 7 0 010-14zm0-2C4.477 1 0 5.477 0 11s4.477 10 10 10 10-4.477 10-10S15.523 1 10 1z"></path>
+                </svg>
+                Pengaturan
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Konten Utama -->
+      <main class="flex-1 p-6">
+        <!-- Header -->
+        <header class="mb-6">
+          <h1 class="text-2xl font-bold">Dashboard Akuntansi</h1>
+          <p class="text-gray-600">Lihat ringkasan keuangan terbaru Anda</p>
+        </header>
+
+        <!-- Ringkasan Pendapatan, Pengeluaran, dan Saldo -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <!-- Pendapatan -->
+          <div class="bg-white p-6 rounded-lg shadow-lg" x-data="{ income: 2000000 }">
+            <h2 class="text-lg font-semibold mb-4">Pendapatan</h2>
+            <p class="text-3xl font-bold text-green-500" x-text="new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(income)"></p>
+            <button class="mt-4 bg-green-500 text-white py-2 px-4 rounded" x-on:click="income += 100000">Tambah Rp100.000</button>
+          </div>
+
+          <!-- Pengeluaran -->
+          <div class="bg-white p-6 rounded-lg shadow-lg" x-data="{ expense: 1500000 }">
+            <h2 class="text-lg font-semibold mb-4">Pengeluaran</h2>
+            <p class="text-3xl font-bold text-red-500" x-text="new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(expense)"></p>
+            <button class="mt-4 bg-red-500 text-white py-2 px-4 rounded" x-on:click="expense += 50000">Tambah Rp50.000</button>
+          </div>
+
+          <!-- Saldo -->
+          <div class="bg-white p-6 rounded-lg shadow-lg" x-data="{ income: 2000000, expense: 1500000 }">
+            <h2 class="text-lg font-semibold mb-4">Saldo</h2>
+            <p class="text-3xl font-bold text-blue-500" x-text="new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(income - expense)"></p>
+          </div>
+        </div>
+
+        <!-- Grafik Ringkasan -->
+        <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+          <h2 class="text-lg font-semibold mb-4">Grafik Keuangan</h2>
+          <div class="h-64 bg-gray-200 flex items-center justify-center rounded-lg">
+            <p>Grafik Placeholder</p>
+          </div>
+        </div>
+
+        <!-- Tabel Transaksi -->
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <h2 class="text-lg font-semibold mb-4">Transaksi Terbaru</h2>
+          <div class="overflow-auto">
+            <table class="min-w-full table-auto">
+              <thead>
+                <tr class="bg-gray-100">
+                  <th class="px-4 py-2">Tanggal</th>
+                  <th class="px-4 py-2">Keterangan</th>
+                  <th class="px-4 py-2">Pendapatan</th>
+                  <th class="px-4 py-2">Pengeluaran</th>
+                  <th class="px-4 py-2">Saldo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border px-4 py-2">18 Sept 2024</td>
+                  <td class="border px-4 py-2">Penjualan Produk A</td>
+                  <td class="border px-4 py-2 text-green-500">Rp200.000</td>
+                  <td class="border px-4 py-2 text-red-500">-</td>
+                  <td class="border px-4 py-2">Rp1.800.000</td>
+                </tr>
+                <tr>
+                  <td class="border px-4 py-2">19 Sept 2024</td>
+                  <td class="border px-4 py-2">Pembelian Bahan B</td>
+                  <td class="border px-4 py-2 text-green-500">-</td>
+                  <td class="border px-4 py-2 text-red-500">Rp150.000</td>
+                  <td class="border px-4 py-2">Rp1.650.000</td>
+                </tr>
+                <!-- Tambahkan lebih banyak data di sini -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
