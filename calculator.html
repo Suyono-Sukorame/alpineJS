@@ -11,13 +11,21 @@
         font-family: "Poppins", sans-serif;
       }
       .btn-3d {
-        @apply bg-gray-200 text-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out;
+        background-color: #e2e8f0; /* bg-gray-200 */
+        color: #4a5568; /* text-gray-800 */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-lg */
+        transform: perspective(500px) translateZ(0);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
       }
       .btn-3d:hover {
-        @apply bg-gray-300 shadow-xl translate-y-[-2px];
+        background-color: #e5e7eb; /* bg-gray-300 */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* shadow-xl */
+        transform: perspective(500px) translateY(-2px);
       }
       .btn-3d:active {
-        @apply bg-gray-400 shadow-md translate-y-[1px];
+        background-color: #d1d5db; /* bg-gray-400 */
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* shadow-md */
+        transform: perspective(500px) translateY(1px);
       }
     </style>
   </head>
