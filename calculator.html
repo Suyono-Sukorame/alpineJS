@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+      }
+      .btn-3d {
+        @apply bg-gray-200 text-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out;
+      }
+      .btn-3d:hover {
+        @apply bg-gray-300 shadow-xl translate-y-[-2px];
+      }
+      .btn-3d:active {
+        @apply bg-gray-400 shadow-md translate-y-[1px];
+      }
+    </style>
+  </head>
+  <body class="bg-gray-200 flex justify-center items-center h-screen">
+    <!-- Container Kalkulator -->
+    <div
+      class="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm"
+      x-data="{
+      display: '',
+      addToDisplay(value) {
+        this.display += value;
+      },
+      clearDisplay() {
+        this.display = '';
+      },
+      calculate() {
+        try {
+          this.display = eval(this.display) || '';
+        } catch (e) {
+          this.display = 'Error';
+        }
+      },
+      percent() {
+        try {
+          this.display = eval(this.display) / 100 || '';
+        } catch (e) {
+          this.display = 'Error';
+        }
+      },
+      squareRoot() {
+        try {
+          this.display = Math.sqrt(eval(this.display)) || '';
+        } catch (e) {
+          this.display = 'Error';
+        }
+      }
+    }"
+    >
+      <!-- Tampilan Hasil -->
+      <div class="bg-gray-100 p-4 rounded-lg text-right text-3xl font-semibold mb-4 h-20 flex items-center justify-end" x-text="display || '0'"></div>
+
+      <!-- Tombol -->
+      <div class="grid grid-cols-4 gap-4">
+        <!-- Baris 1 -->
+        <button @click="clearDisplay" class="btn-3d py-4 rounded-lg text-xl font-semibold bg-red-500 text-white">C</button>
+        <button @click="percent" class="btn-3d py-4 rounded-lg text-xl font-semibold bg-gray-300 text-gray-800">%</button>
+        <button @click="squareRoot" class="btn-3d py-4 rounded-lg text-xl font-semibold bg-gray-300 text-gray-800">√</button>
+        <button @click="addToDisplay('/')" class="btn-3d py-4 rounded-lg text-xl font-semibold bg-gray-300 text-gray-800">÷</button>
+
+        <!-- Baris 2 -->
+        <button @click="addToDisplay('7')" class="btn-3d py-4 rounded-lg text-xl font-semibold bg-gray-100 text-gray-900">7</button>
+        <button @click="addToDisplay('8')" class="btn-3d py-4 rounded-lg text-xl font-semibold bg-gray-100 text-gray-900">8</button>
+        <button @click="addToDisplay('9')" class="btn-3d py-4 rounded-lg text-xl font-semibold bg-gray-100 text-gray-900">9</button>
+        <button @click="addToDisplay('*')" class="btn-3d py-4 rounded-lg text-xl font-semibold bg-gray-300 text-gray-800">×</button>
+
+        <!-- Baris 3 -->
+        <button @click="addToDisplay('4')" class="btn-3d py-4 rounded-lg text-xl font-semibold bg-gray-100 text-gray-900">4</button>
+        <button @click="addToDisplay('5')" class="btn-3d py-4 rounded-lg text-xl font-semibold bg-gray-100 text-gray-900">5</button>
+        <button @click="addToDisplay('6')" class="btn-3d py-4 rounded-lg text-xl font-semibold bg-gray-100 text-gray-900">6</button>
+        <button @click="addToDisplay('-')" class="btn-3d py-4 rounded-lg text-xl font-semibold bg-gray-300 text-gray-800">−</button>
+
+        <!-- Baris 4 -->
+        <button @click="addToDisplay('1')" class="btn-3d py-4 rounded-lg text-xl font-semibold bg-gray-100 text-gray-900">1</button>
+        <button @click="addToDisplay('2')" class="btn-3d py-4 rounded-lg text-xl font-semibold bg-gray-100 text-gray-900">2</button>
+        <button @click="addToDisplay('3')" class="btn-3d py-4 rounded-lg text-xl font-semibold bg-gray-100 text-gray-900">3</button>
+        <button @click="addToDisplay('+')" class="btn-3d py-4 rounded-lg text-xl font-semibold bg-gray-300 text-gray-800">+</button>
+
+        <!-- Baris 5 -->
+        <button @click="addToDisplay('0')" class="btn-3d col-span-2 py-4 rounded-lg text-xl font-semibold bg-gray-100 text-gray-900">0</button>
+        <button @click="addToDisplay('.')" class="btn-3d py-4 rounded-lg text-xl font-semibold bg-gray-100 text-gray-900">.</button>
+        <button @click="calculate" class="btn-3d col-span-2 py-4 rounded-lg text-xl font-semibold bg-blue-500 text-white">=</button>
+      </div>
+    </div>
+  </body>
+</html>

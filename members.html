@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daftar Anggota dengan Pagination dan Pencarian</title>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  </head>
+  <body class="bg-gray-100">
+    <!-- Container utama -->
+    <div
+      class="container mx-auto p-5"
+      x-data="{
+        anggota: [],
+        currentPage: 1,
+        perPage: 6,
+        totalItems: 0,
+        searchQuery: '',
+        
+        // Mengambil data dari API
+        async fetchMembers() {
+          const response = await fetch('https://randomuser.me/api/?results=50'); // Mengambil 50 pengguna
+          const data = await response.json();
+          this.anggota = data.results; // Array hasil pengguna
+          this.totalItems = this.anggota.length; // Menghitung total pengguna
+        },
+
+        // Menghitung anggota yang harus ditampilkan berdasarkan pagination dan pencarian
+        get paginatedAnggota() {
+          let filteredAnggota = this.anggota.filter((person) => {
+            return `${person.name.first} ${person.name.last}`.toLowerCase().includes(this.searchQuery.toLowerCase());
+          });
+
+          this.totalItems = filteredAnggota.length; // Update total items berdasarkan hasil pencarian
+
+          let start = (this.currentPage - 1) * this.perPage;
+          let end = this.currentPage * this.perPage;
+          return filteredAnggota.slice(start, end);
+        },
+
+        // Pindah ke halaman berikutnya
+        nextPage() {
+          if (this.currentPage * this.perPage < this.totalItems) {
+            this.currentPage++;
+          }
+        },
+
+        // Pindah ke halaman sebelumnya
+        prevPage() {
+          if (this.currentPage > 1) {
+            this.currentPage--;
+          }
+        }
+      }"
+      x-init="fetchMembers()"
+    >
+      <!-- Heading -->
+      <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Daftar Anggota dengan Pagination dan Pencarian</h1>
+
+      <!-- Pencarian -->
+      <div class="mb-4">
+        <input type="text" placeholder="Cari anggota berdasarkan nama..." x-model="searchQuery" class="w-full p-3 rounded-lg border border-gray-300" />
+      </div>
+
+      <!-- Grid Card -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <!-- Looping anggota dengan pagination -->
+        <template x-for="person in paginatedAnggota" :key="person.login.uuid">
+          <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <!-- Gambar Anggota -->
+            <img :src="person.picture.large" alt="Photo" class="w-full h-32 object-cover" />
+
+            <!-- Info Anggota -->
+            <div class="p-4">
+              <!-- Nama -->
+              <h2 class="text-xl font-semibold text-gray-800" x-text="`${person.name.first} ${person.name.last}`"></h2>
+              <!-- Umur dan Gender -->
+              <p class="text-gray-600 mt-2">Umur: <span x-text="person.dob.age"></span> tahun</p>
+              <p class="text-gray-600">Gender: <span x-text="person.gender"></span></p>
+              <!-- Alamat -->
+              <p class="text-gray-600 mt-2">Address: <span x-text="`${person.location.city}, ${person.location.country}`"></span></p>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <!-- Pagination Controls -->
+      <div class="mt-6 flex justify-center space-x-4">
+        <!-- Tombol Previous -->
+        <button @click="prevPage" :disabled="currentPage === 1" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md disabled:opacity-50">Previous</button>
+
+        <!-- Nomor Halaman -->
+        <span class="px-4 py-2 bg-gray-100 text-gray-800 rounded-md" x-text="`Page ${currentPage}`"></span>
+
+        <!-- Tombol Next -->
+        <button @click="nextPage" :disabled="currentPage * perPage >= totalItems" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md disabled:opacity-50">Next</button>
+      </div>
+    </div>
+  </body>
+</html>
